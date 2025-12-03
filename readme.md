@@ -5,7 +5,7 @@
 ![Platform](https://img.shields.io/badge/Platform-ESP32%20%7C%20ESP32--S2%20%7C%20ESP32--C3%20%7C%20ESP32--S3-green)
 
 A driver for the MPU6500 6-axis IMU (accelerometer + gyroscope) designed for the ESP-IDF framework. Includes sensor calibration, real-time attitude estimation, and multiple data output formats.
-
+ zh_CN [简体中文](README_CN.md)
 ## 🚀 Quick Start
 
 ### Prerequisites
