@@ -1,0 +1,6 @@
+# Component CMakeLists.txt
+idf_component_register(
+    SRCS "mpu6500.c"
+    INCLUDE_DIRS "include"
+    REQUIRES driver nvs_flash esp_timer 
+)
