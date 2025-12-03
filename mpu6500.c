@@ -23,6 +23,15 @@
 
 static const char *TAG = "MPU6500";
 
+static attitude_data_t attitude_data = { // 内部姿态数据
+    .q0 = 1.0f,
+    .q1 = 0.0f,
+    .q2 = 0.0f,
+    .q3 = 0.0f,
+    .roll = 0.0f,
+    .pitch = 0.0f,
+    .yaw = 0.0f,
+};
 
 static sensor_read_config_t g_read_config = {  // 默认读取配置
     .accel_scale = 1.0f / ACCEL_SENSITIVITY,  // ±2g量程
@@ -32,19 +41,9 @@ static sensor_read_config_t g_read_config = {  // 默认读取配置
 
 static mpu_filter_config_t fliter_config = {    // 默认滤波器配置
     .sample_rate_hz = SAMPLE_RATE_HZ,
-    .kp = 4.0,  // 比例增益
-    .ki = 0.01f, // 积分增益
+    .kp = 6.0,  // 比例增益
+    .ki = 0.005f, // 积分增益
     .beta = 0.05f // 陀螺仪偏差估计增益
-};
-
-static attitude_data_t attitude_data = { // 姿态数据
-    .q0 = 1.0f,
-    .q1 = 0.0f,
-    .q2 = 0.0f,
-    .q3 = 0.0f,
-    .roll = 0.0f,
-    .pitch = 0.0f,
-    .yaw = 0.0f,
 };
 
 static calibration_data_t cali_data = { // 加速度计校准数据

@@ -55,6 +55,8 @@ static void wait_for_any_key(void);
 static void init_uart(void);
 static int get_char_nonblocking(void);
 static void wait_for_any_key(void);
+bool mpu6500_process_serial_command(int ch, output_mode_t *output_mode);
+void mpu6500_show_help(void);
 
 
 void app_main(void)

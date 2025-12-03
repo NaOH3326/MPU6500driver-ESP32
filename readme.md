@@ -1,4 +1,5 @@
 
+
 # MPU6500 传感器驱动 (ESP-IDF)
 
 [![许可证: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -6,8 +7,6 @@
 ![平台](https://img.shields.io/badge/平台-ESP32%20%7C%20ESP32--S2%20%7C%20ESP32--C3%20%7C%20ESP32--S3-green)
 
 专为 ESP-IDF 框架设计的 MPU6500 六轴 IMU（加速度计 + 陀螺仪）驱动程序。包含传感器校准、实时姿态估计和多数据输出格式。
-
-README_EN [ENGLISH](README_en.md)
 
 ## 🚀 快速开始
 
@@ -223,10 +222,3 @@ ESP-IDF 版本
 重现步骤
 
 ⭐ 如果这个项目对您有帮助，请给它一个 star！ ⭐
-
-
-作者的话：
-我为什么要写这个呢？其实是因为晚上两点买imu买错了，然后去espidf组件管理器和github逛了一圈都没有开
-箱即用的驱动（虽然找到过一个c++开发的驱动库，但是我目前还不是很清楚C++，理解函数结构也要不少时间），
-故而花了两天写了这个简单的驱动库，如果有人有兴趣的话可以协助我开发dmp和其他高级功能。还有一个原因是
-价格，tb上mpu6050基本要八九块，mou6500就只需要5.5，从这里也可见产品资料的重要性了

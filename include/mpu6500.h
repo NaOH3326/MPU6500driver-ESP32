@@ -33,7 +33,7 @@ extern "C" {
 #define ACCEL_SENSITIVITY 16384.0f // LSB/g for ±2g，可自行修改
 
 //如果出现角度不准请修改此项，非常重要！！！滤波器工作需要一个精确的dt，而每个人的系统频率不一样
-#define SAMPLE_RATE_HZ  80.0f 
+#define SAMPLE_RATE_HZ 80.0f
 
 
 
