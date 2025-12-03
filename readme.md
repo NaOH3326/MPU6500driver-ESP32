@@ -1,7 +1,4 @@
 
-## 2. README_CN.md (中文版)
-
-```markdown
 # MPU6500 传感器驱动 (ESP-IDF)
 
 [![许可证: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
