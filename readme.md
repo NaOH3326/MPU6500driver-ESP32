@@ -1,187 +1,180 @@
+# MPU6500 Sensor Driver (ESP-IDF)
 
-## 2. README_CN.md (中文版)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![ESP-IDF Version](https://img.shields.io/badge/ESP--IDF-5.5.1%2B-blue)
+![Platform](https://img.shields.io/badge/Platform-ESP32%20%7C%20ESP32--S2%20%7C%20ESP32--C3%20%7C%20ESP32--S3-green)
 
-```markdown
-# MPU6500 传感器驱动 (ESP-IDF)
+A driver for the MPU6500 6-axis IMU (accelerometer + gyroscope) designed for the ESP-IDF framework. Includes sensor calibration, real-time attitude estimation, and multiple data output formats.
 
-[![许可证: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-![ESP-IDF 版本](https://img.shields.io/badge/ESP--IDF-5.5.1%2B-blue)
-![平台](https://img.shields.io/badge/平台-ESP32%20%7C%20ESP32--S2%20%7C%20ESP32--C3%20%7C%20ESP32--S3-green)
+## 🚀 Quick Start
 
-专为 ESP-IDF 框架设计的 MPU6500 六轴 IMU（加速度计 + 陀螺仪）驱动程序。包含传感器校准、实时姿态估计和多数据输出格式。
+### Prerequisites
+- ESP-IDF v5.5.1 or later
+- ESP32, ESP32-S2, ESP32-C3, or ESP32-S3
+- MPU6500 or MPU6500 expansion board
+- Basic I2C wiring (SCL, SDA, VCC, GND)
 
-## 🚀 快速开始
-
-### 前提条件
-- ESP-IDF v5.5.1 或更高版本
-- ESP32、ESP32-S2、ESP32-C3 或 ESP32-S3
-- MPU6500 或 MPU6500 扩展板
-- 基础 I2C 接线（SCL、SDA、VCC、GND）
-
-### 硬件连接
-| MPU6500 引脚 | ESP32 引脚 | 说明 |
+### Hardware Connection
+| MPU6500 Pin | ESP32 Pin | Description |
 |-------------|-----------|-------------|
-| VCC         | 3.3V      | 3.3V 电源   |
-| GND         | GND       | 地线        |
-| SCL         | GPIO14    | I2C 时钟线  |
-| SDA         | GPIO13    | I2C 数据线  |
-| AD0         | GND/3.3V  | I2C 地址选择 (GND=0x68, 3.3V=0x69) |
+| VCC         | 3.3V      | 3.3V Power  |
+| GND         | GND       | Ground      |
+| SCL         | GPIO14    | I2C Clock   |
+| SDA         | GPIO13    | I2C Data    |
+| AD0         | GND/3.3V  | I2C Address Select (GND=0x68, 3.3V=0x69) |
 
-### 安装
-1. 克隆此仓库到您项目的 components 目录：
+### Installation
+1. Clone this repository to your project's `components` directory:
 ```bash
 cd your-project/components
 git clone https://github.com/cengizsinankostakoglu/mpu6500-driver.git
-2.在主应用程序中配置 I2C 引脚：
+Configure I2C pins in your main application:
 
+c
 #define I2C_SCL_PIN     14
 #define I2C_SDA_PIN     13
 #define I2C_FREQ_HZ     400000
 
-📖 功能特性
-核心功能
-✅ 完整的 MPU6500 寄存器级控制
+📖 Features
+Core Features
+✅ Complete MPU6500 register-level control
 
-✅ 自动简单水平加速度计校准
+✅ Automatic simple level accelerometer calibration
 
-✅ 陀螺仪零偏校准
+✅ Gyroscope bias calibration
 
-✅ 姿态估计 Mahony 滤波器
+✅ Mahony filter for attitude estimation
 
-✅ 四元数和欧拉角输出
+✅ Quaternion and Euler angle output
 
-✅ NVS 存储校准参数
+✅ NVS storage for calibration parameters
 
+✅ Temperature sensor support
 
-✅ 温度传感器支持
+✅ Power management (sleep/wake)
 
-✅ 电源管理（睡眠/唤醒）
+✅ Interrupt-driven data ready
 
-✅ 中断驱动数据就绪
+Advanced Features
+Real-time sensor diagnostics
 
-高级功能
-实时传感器诊断
+Configurable filter parameters (KP, KI, beta)
 
-可配置滤波器参数（KP、KI、beta）
+Adjustable sample rate (1Hz - 1kHz)
 
-可调采样率（1Hz - 1kHz）
+Sensor health monitoring
 
-传感器健康监测
+Automatic calibration detection
 
-自动校准检测
+Cross-platform compatibility
 
-跨平台兼容性
+🛠️ Usage Examples
+Basic Usage
+Refer to basic_example.c in the project's example folder. Copy its content into your main.c, then compile and run. Observe the output via serial port.
 
-🛠️ 使用示例
-基础使用
+Advanced Features
+To verify advanced features, use advanced_example.c. Copy its content into your main.c, then compile and run. Observe the output via serial port.
 
-请参照项目example文件夹中的basic_example.c,将其内容复制并覆盖到你的main.c中,然后编译并运行，通过串口观测输出
-如果需要验证高级功能可以使用advaned_example.c，将其内容复制并覆盖到你的main.c中,然后编译并运行，通过串口观测输出
-
-📁 项目结构
+📁 Project Structure
+text
 mpu6500-driver/
 ├── include
-|   └── mpu6500.h                   # 主头文件
-|——example
-|    |── basic_example.c            # 基础使用示例
-|     └──   advanced_example.c      # 完整功能示例
-├── mpu6500.c                       # 驱动实现
-├── CMakeLists.txt                  # 构建配置
-├── README.md                       # 英文文档
-├── README_CN.md                    # 中文文档
-└── LICENSE                         # MIT 许可证
-🔧 配置
-传感器量程配置 (在 mpu6500.h 中)
-
-// 加速度计量程: ±2g, ±4g, ±8g, ±16g
+│   └── mpu6500.h                   # Main header file
+├── example
+│   ├── basic_example.c            # Basic usage example
+│   └── advanced_example.c         # Full-feature example
+├── mpu6500.c                      # Driver implementation
+├── CMakeLists.txt                 # Build configuration
+├── README.md                      # English documentation
+├── README_CN.md                   # Chinese documentation
+└── LICENSE                        # MIT License
+🔧 Configuration
+Sensor Range Configuration (in mpu6500.h)
+c
+// Accelerometer range: ±2g, ±4g, ±8g, ±16g
 #define ACCEL_FS 0x00       // ±2g
 
-// 陀螺仪量程: ±250, ±500, ±1000, ±2000°/s
-#define GYRO_FS (0x01<<3)   // ±500°/s
-
-滤波器配置
-
+// Gyroscope range: ±250, ±500, ±1000, ±2000 °/s
+#define GYRO_FS (0x01<<3)   // ±500 °/s
+Filter Configuration
+c
 mpu_filter_config_t filter_config = {
-    .sample_rate_hz = 80.0f,    // 匹配您的系统时钟频率
-    .kp = 4.0f,                 // 比例增益
-    .ki = 0.01f,                // 积分增益
-    .beta = 0.05f               // 陀螺仪零偏估计增益
+    .sample_rate_hz = 80.0f,    // Match your system clock frequency
+    .kp = 4.0f,                 // Proportional gain
+    .ki = 0.01f,                // Integral gain
+    .beta = 0.05f               // Gyroscope bias estimation gain
 };
+🎮 Interactive Commands (Advanced Example)
+Run the advanced example and use the following serial commands:
 
-🎮 交互式命令 (高级示例)
-运行高级示例并使用以下串口命令：
-
-命令	描述
-h	显示帮助菜单
-c	开始传感器校准
-t	测试传感器功能
-j	JSON 输出模式
-s	开始连续数据采集
-q	退出程序
-
-📊 输出格式
-详细模式
-
+Command	Description
+h	Show help menu
+c	Start sensor calibration
+t	Test sensor functionality
+j	JSON output mode
+s	Start continuous data acquisition
+q	Quit program
+📊 Output Formats
+Verbose Mode
+text
 [       0] Roll=  0.23°, Pitch= -1.45°, Yaw= 178.92° | Quat: [0.999, 0.002, 0.031, 0.001] | Gyro: [  0.1,   0.2,  -0.3] °/s
-
-JSON 模式
-
+JSON Mode
+json
 {"ts":123456789,"accel":[0.003,0.015,1.002],"gyro":[0.12,0.23,-0.15],"euler":[0.23,-1.45,178.92]}
+🐛 Troubleshooting
+Common Issues
+Sensor not detected
 
-🐛 故障排除
-常见问题
-1. 传感器未检测到
+Check I2C connections and pull-up resistors (recommended 4.7kΩ)
 
-检查 I2C 连接和上拉电阻（推荐 4.7kΩ）
+Verify I2C address (0x68 when AD0=GND, 0x69 when AD0=3.3V)
 
-验证 I2C 地址（AD0=GND 时为 0x68，AD0=3.3V 时为 0x69）
+Ensure stable power supply (3.3V)
 
-确保电源稳定（3.3V）
+Inaccurate attitude estimation
 
-2. 姿态估计不准
+Adjust SAMPLE_RATE_HZ in mpu6500.h to match your system
 
-调整 mpu6500.h 中的 SAMPLE_RATE_HZ 以匹配您的系统
+Tune filter parameters: increase kp for faster response, decrease for stability
 
-调整滤波器参数：增加 kp 加快响应，减少提高稳定性
+Perform proper sensor calibration
 
-执行正确的传感器校准
+Calibration timing error
 
-3. 校准时间错误
-
-在 menuconfig 中将 configTICK_RATE_HZ 设为 1000：
+Set configTICK_RATE_HZ to 1000 in menuconfig:
 idf.py menuconfig > Component config > FreeRTOS > Tick rate (Hz)
 
-4. 数据溢出
+Data overflow
 
-如果使用高滤波器增益，降低采样率
+Reduce sample rate if using high filter gains
 
-检查传感器是否饱和（超过 ±2g 或 ±500°/s）
+Check if sensor is saturated (exceeding ±2g or ±500 °/s)
 
-📈 性能
-指标	值	备注
-最大采样率	1 kHz	受 I2C 速度限制
-默认采样率	80 Hz	适用于大多数应用
-滤波器延迟	< 5 ms	Mahony 滤波器计算
-功耗	3.9 mA	正常模式，所有传感器激活
-校准时间	6 秒	简单水平校准与陀螺仪校准
-内存使用	~8 KB	包含滤波器状态
+📈 Performance
+Metric	Value	Notes
+Maximum Sample Rate	1 kHz	Limited by I2C speed
+Default Sample Rate	80 Hz	Suitable for most applications
+Filter Latency	< 5 ms	Mahony filter computation
+Power Consumption	3.9 mA	Normal mode, all sensors active
+Calibration Time	6 sec	Simple level calibration & gyro calibration
+Memory Usage	~8 KB	Includes filter state
+🤝 Contributing
+Contributions are welcome! You can help by:
 
-🤝 贡献指南
-欢迎贡献！您可以通过以下方式帮助：
+Reporting bugs: Submit issues with detailed descriptions
 
-报告错误：提交问题并提供详细描述
+Suggesting features: Share your improvement ideas
 
-建议功能：分享您的改进想法
+Submitting code: Fork the repository and create a pull request
 
-提交代码：fork 仓库并创建拉取请求
+Improving documentation: Fix typos or add examples
 
-改进文档：修正拼写错误或添加示例
+Development Environment Setup
+This project is developed in a VSCode + ESP-IDF plugin environment. Copy the project to your components directory and set the compilation path correctly in the root directory's CMakeLists.txt.
 
-开发环境设置
-本项目基于vscode+espidf插件的环境开发，请将项目复制到你的组件目录内并在根目录的CMakelists.txt设置好好编译路径
-例如：
+Example:
 
-
+cmake
 # For more information about build system see
 # https://docs.espressif.com/projects/esp-idf/en/latest/api-guides/build-system.html
 # The following five lines of boilerplate have to be in your project's
@@ -191,43 +184,33 @@ cmake_minimum_required(VERSION 3.5)
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 project(yourproject)
 set(EXTRA_COMPONENT_DIRS ./components/MPU6500)
+📄 License
+This project is licensed under the MIT License - see the LICENSE file for details.
 
+🙏 Acknowledgments
+InvenSense for the MPU6500 sensor
 
+Espressif Systems for the ESP-IDF framework
 
-📄 许可证
-本项目采用 MIT 许可证 - 查看 LICENSE 文件了解详情。
+Sebastian Madgwick for the Mahony filter algorithm
 
-🙏 致谢
-InvenSense 提供 MPU6500 传感器
+All contributors and testers of the driver (though currently it's just me)
 
-Espressif Systems 提供 ESP-IDF 框架
+📞 Support
+For support, please:
 
-Sebastian Madgwick 提供 Mahony 滤波器算法
+Check the Troubleshooting section
 
-所有驱动程序的贡献者和测试者（虽然目前都是我）
+Search existing Issues
 
-📞 支持
-如需支持，请：
+When creating a new issue, provide:
 
-查看 故障排除 部分
+ESP-IDF version
 
-搜索现有 问题
+Hardware configuration
 
-创建新问题时提供：
+Error logs
 
-ESP-IDF 版本
+Steps to reproduce
 
-硬件配置
-
-错误日志
-
-重现步骤
-
-⭐ 如果这个项目对您有帮助，请给它一个 star！ ⭐
-
-
-作者的话：
-我为什么要写这个呢？其实是因为晚上两点买imu买错了，然后去espidf组件管理器和github逛了一圈都没有开
-箱即用的驱动（虽然找到过一个c++开发的驱动库，但是我目前还不是很清楚C++，理解函数结构也要不少时间），
-故而花了两天写了这个简单的驱动库，如果有人有兴趣的话可以协助我开发dmp和其他高级功能。还有一个原因是
-价格，tb上mpu6050基本要八九块，mou6500就只需要5.5，从这里也可见产品资料的重要性了
+⭐ If this project helps you, please give it a star! ⭐
